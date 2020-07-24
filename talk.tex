@@ -1,0 +1,145 @@
+\documentclass[landscape]{article}
+\usepackage[pdftex]{graphicx,color}
+\usepackage{amssymb}
+\pagestyle{empty}
+\oddsidemargin  -0.5 in
+\evensidemargin -0.5 in
+\headheight     0 in
+\topmargin      -1 in
+\textheight     7.7 in
+\textwidth      10 in
+\newenvironment{slide}[1][ ]{\mbox{\bf #1 } \vfill}{\vfill \mbox{ } \hfill \Large \arabic{page} \pagebreak}
+\begin{document}
+\Huge \sffamily
+\renewcommand{\labelitemi}{{\LARGE $\stackrel{\bullet}{\mbox{ }}$}}
+\setlength{\parindent}{0 cm}
+
+\begin{slide}
+\begin{center}
+Electron Identification without the Pixel Detector
+
+\vspace{0.5 cm}
+Software Overview
+
+\vspace{1.5 cm}
+Jim Pivarski
+
+\vspace{0.25 cm}
+Cornell University
+\end{center}
+\end{slide}
+
+\begin{slide}
+\begin{description}
+
+\item[Motivation:] Current electron-finding algorithm relies on the
+pixel detector; we aim to provide an interim solution
+
+\vfill
+\item[Goal:] Identify electrons by matching Si-strip tracker hits to
+ECAL superclusters
+
+\vfill
+\item[Scope:] Input {\tt SuperClusterCollection} and
+{\tt SiStripRecHits}, and output a collection of electron candidates
+
+\vspace{0.5 cm}
+to be used for triggering and offline
+
+\vfill
+\item[Status:] We're studying MC and potential algorithms (more
+tomorrow); checked in placeholder code
+
+\end{description}
+\end{slide}
+
+\begin{slide}
+Electron Candidate objects
+
+\vfill
+\begin{itemize}
+
+\item {\tt DataFormats/EgammaCandidates/SiStripElectronCandidate}
+
+\vfill
+\item Subclass of {\tt RecoCandidate}
+
+\vfill
+\item If the collection is nonempty, HLT should accept the event
+
+\end{itemize}
+
+\vfill
+HLT .cfg path:
+
+\begin{center}
+Level 2 (clustering) $\rightarrow$ we create {\tt SiStripElectronCandidate}s $\rightarrow$ \\
+
+\vspace{0.5 cm}
+$\rightarrow$ Level 2.5 HLT filter $\rightarrow$ Level 3 (tracking) $\rightarrow$ {\tt ElectronCandidate}s
+\end{center}
+\end{slide}
+
+\begin{slide}
+{\tt SiStripElectronCandidate} will contain a track-finding seed for the next level of triggering (Level 3)
+
+\vfill
+\[ \mbox{Seed may be \mbox{\hspace{1 cm}}} \left\{
+\mbox{\begin{minipage}{0.7\linewidth}
+\begin{itemize}
+
+\item Track parameters determined from supercluster position/energy and SiStrip hits,
+
+\vspace{0.25 cm}
+\begin{center}
+or
+\end{center}
+
+\vspace{0.25 cm}
+\item Track parameters and a cloud of tracker hits
+\end{itemize}
+\end{minipage}} \right. \]
+
+\end{slide}
+
+\begin{slide}
+Placeholder checked into {\tt RecoEgamma/EgammaElectronProducers} and \ldots{\tt Algos},
+
+\vfill
+\begin{center}
+{\tt SiStripElectronProducer} and {\tt ElectronAnalyzer}
+\end{center}
+
+\vfill
+\begin{itemize}\setlength{\itemsep}{0.75 cm}
+
+\item Checked in with tags {\tt jp-29may06}
+
+\item Compiles in {\tt CMSSW\_0\_7\_0\_pre2}
+
+\item Currently produces empty {\tt SiStripElectronCandidateCollection}s
+
+\end{itemize}
+
+\vfill
+\begin{center}
+\begin{minipage}{0.85\linewidth}
+Until now, we've been studying Monte Carlo (tomorrow's talk) in a private area
+\end{minipage}
+\end{center}
+
+\vfill
+\begin{center}
+\begin{minipage}{0.85\linewidth}
+From this point on, we will use the checked-in code to study MC and
+develop algorithms
+\end{minipage}
+\end{center}
+\end{slide}
+
+
+
+
+
+
+\end{document}
